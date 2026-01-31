@@ -1,0 +1,5 @@
+# Ignorer les fichiers de secrets Terraform
+*.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
