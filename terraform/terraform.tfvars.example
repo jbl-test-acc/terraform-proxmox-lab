@@ -1,0 +1,11 @@
+# Copiez ce fichier en 'terraform.tfvars' et remplissez vos valeurs
+
+pm_api_url          = "https://192.168.1.100:8006/api2/json"
+pm_api_token_id     = "user@pam!token"
+pm_api_token_secret = "votre-secret-ici"
+
+vm_name             = "web-server-demo"
+vm_ip               = "192.168.x.x/24"
+vm_gateway          = "192.168.x.1"
+ssh_public_key      = "ssh-rsa AAAA..."
+ssh_private_key_path= "~/.ssh/id_rsa"

@@ -1,20 +1,33 @@
-variable "pm_api_url" {
+# --- IDENTIFICATION PROXMOX (Déjà présentes normalement) ---
+variable "pm_api_url" {}
+variable "pm_api_token_id" {}
+variable "pm_api_token_secret" {}
+
+# --- CONFIGURATION DE LA VM ---
+
+variable "vm_name" {
+  description = "Le nom de la machine virtuelle dans Proxmox"
   type        = string
-  description = "L'URL de l'API Proxmox"
+  default     = "web-server-01"
 }
 
-variable "pm_api_token_id" {
+variable "vm_ip" {
+  description = "Adresse IP avec le masque (ex: 192.168.1.10/24)"
   type        = string
-  description = "L'ID du token utilisateur"
 }
 
-variable "pm_api_token_secret" {
+variable "vm_gateway" {
+  description = "La passerelle par défaut (Routeur)"
   type        = string
-  description = "Le secret du token (Ne pas partager !)"
-  sensitive   = true  # Empêche Terraform d'afficher ce secret dans les logs
 }
 
 variable "ssh_public_key" {
+  description = "Votre clé publique SSH (contenu ou chemin)"
   type        = string
-  description = "Ma clé publique SSH pour se connecter aux VMs"
+}
+
+variable "ssh_private_key_path" {
+  description = "Chemin vers votre clé privée (pour la connexion Terraform)"
+  type        = string
+  default     = "~/.ssh/id_rsa"
 }

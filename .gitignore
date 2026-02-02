@@ -1,5 +1,20 @@
-# Ignorer les fichiers de secrets Terraform
-*.tfvars
-*.tfstate
-*.tfstate.backup
+# Fichier : .gitignore
+
+# 1. Les dossiers locaux (plugins téléchargés)
 .terraform/
+
+# 2. Les fichiers d'état (très sensible : contient tout votre infra en clair !)
+*.tfstate
+*.tfstate.*
+
+# 3. Les logs de crash
+crash.log
+
+# 4. Vos variables secrètes (IPs, mots de passe, tokens)
+terraform.tfvars
+*.auto.tfvars
+
+# 5. Fichiers de backup ou temporaires
+*.backup
+.DS_Store
+
