@@ -56,7 +56,7 @@ resource "proxmox_vm_qemu" "mon-serveur-web" {
     # On utilise le chemin variable
     private_key = file(var.ssh_private_key_path)
     # On reprend l'IP définie dans la variable, mais sans le masque (/28)
-    # Astuce : split permet de couper "192.168.16.35/28" pour garder juste l'IP
+    # Astuce : split permet de couper "192.168.1.0/24" pour garder juste l'IP
     host        = element(split("/", var.vm_ip), 0)
     timeout     = "2m"
   }
