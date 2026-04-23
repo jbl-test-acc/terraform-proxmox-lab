@@ -1,0 +1,37 @@
+name: 'Terraform Quality Check'
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  terraform-lint:
+    name: 'Terraform Lint & Validate'
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./terraform # On précise où se trouve le code TF
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.0 # Ta version de Terraform
+
+      - name: Terraform Format Check
+        run: terraform fmt -check
+        # Cette étape échoue si ton code n'est pas bien formaté (un coup de 'terraform fmt' suffit à corriger)
+
+      - name: Terraform Init
+        run: terraform init -backend=false
+        # On initialise sans backend car GitHub n'a pas accès à ton Proxmox
+
+      - name: Terraform Validate
+        run: terraform validate
+        # C'est l'étape cruciale : elle vérifie si la logique de ton infrastructure est correcte

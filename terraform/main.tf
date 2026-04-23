@@ -5,16 +5,16 @@ resource "proxmox_vm_qemu" "mon-serveur-web" {
   clone       = "ubuntu-cloud-template"
   full_clone  = true
   os_type     = "cloud-init"
-  
+
   cpu {
     cores   = 2
     sockets = 1
   }
-  
-  memory      = 2048
-  scsihw      = "virtio-scsi-pci"
-  boot        = "order=scsi0"
-  agent       = 1 
+
+  memory = 2048
+  scsihw = "virtio-scsi-pci"
+  boot   = "order=scsi0"
+  agent  = 1
 
   disk {
     slot    = "scsi0"
@@ -31,9 +31,9 @@ resource "proxmox_vm_qemu" "mon-serveur-web" {
   }
 
   network {
-    id      = 0
-    model   = "virtio"
-    bridge  = "vmbr0"
+    id     = 0
+    model  = "virtio"
+    bridge = "vmbr0"
   }
 
   # --- C'est ici que la magie opère (Interpolation) ---
@@ -43,28 +43,28 @@ resource "proxmox_vm_qemu" "mon-serveur-web" {
   # DNS
   nameserver = "1.1.1.1"
 
-  ciuser    = "devops"
-  sshkeys   = var.ssh_public_key
+  ciuser  = "devops"
+  sshkeys = var.ssh_public_key
 
   vga {
     type = "std"
   }
 
   connection {
-    type        = "ssh"
-    user        = "devops"
+    type = "ssh"
+    user = "devops"
     # On utilise le chemin variable
     private_key = file(var.ssh_private_key_path)
     # On reprend l'IP définie dans la variable, mais sans le masque (/28)
     # Astuce : split permet de couper "192.168.1.0/24" pour garder juste l'IP
-    host        = element(split("/", var.vm_ip), 0)
-    timeout     = "2m"
+    host    = element(split("/", var.vm_ip), 0)
+    timeout = "2m"
   }
 
   provisioner "remote-exec" {
     inline = [
       "echo '⏳ Attente boot...'",
-      "sleep 10", 
+      "sleep 10",
       "while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 1; done",
       "sudo apt-get update",
       "sudo apt-get install -y qemu-guest-agent nginx",
